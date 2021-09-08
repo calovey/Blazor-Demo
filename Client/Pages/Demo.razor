@@ -1,0 +1,54 @@
+﻿@page "/demo"
+
+@using SparseDemo.Shared
+@inject HttpClient Http
+
+@if (demoClasses == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <h3>Demo</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>User Name</th>
+                <th>Password</th>
+                <th>E-mail</th>
+            </tr>
+        </thead>
+        @foreach (var DemoClass in demoClasses)
+        {
+            <tr>
+                <td>@DemoClass.name</td>
+                <td>@DemoClass.username</td>
+                <td>@DemoClass.password</td>
+                <td>@DemoClass.email</td>
+            </tr>
+        }
+    </table>
+}
+
+@code {
+    private DemoClass[] demoClasses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        demoClasses = await Http.GetFromJsonAsync<DemoClass[]>("demojs.json");
+    }
+
+    //public class Employee
+    //{
+    //    //[JsonPropertyName("Name")]
+    //    public string name { get; set; }
+    //    //[JsonPropertyName("UserName")]
+    //    public string username { get; set; }
+    //    //[JsonPropertyName("Password")]
+    //    public string password { get; set; }
+    //    //[JsonPropertyName("Email")]
+    //    public string email { get; set; }
+    //}
+}
